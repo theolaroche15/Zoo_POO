@@ -125,6 +125,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="utf-8">
     <title>Mon Zoo</title>
+    <style>
+        body { font-family: Arial, sans-serif;
+                background-color: #f0f0f5;
+                margin: 20px;
+        }
+
+        h1, h2, h3 {
+            color: #333
+        }
+
+        div.enclos {
+            border: 2px solid #888;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 15px;
+            background-color: #fff;
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            margin: 2px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        form {
+            margin-top: 5px;
+        }
+    </style>
 </head>
 <body>
 <h1>Mon Zoo</h1>
@@ -134,9 +176,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php
 $all = $zoo->getEnclos();
 foreach ($all as $i => $en) {
-    echo '<div>';
+    echo '<div class="enclos">';
     echo '<h3>' . htmlspecialchars($en->getNom()) . ' (propreté: ' . htmlspecialchars($en->getProprete()) . ')</h3>';
-
+    echo '</div>';
     if ($en->isEmpty()) {
         echo '<p>Aucun animal</p>';
     } else {
@@ -172,9 +214,9 @@ foreach ($all as $i => $en) {
             <option value="Poisson">Poisson</option>
           </select> ';
     echo 'Nom: <input name="nom" size="8" required> ';
-    echo 'Poids: <input name="poids" size="4" value="1"> ';
-    echo 'Taille: <input name="taille" size="4" value="0.1"> ';
-    echo 'Age: <input name="age" size="2" value="1"> ';
+    echo 'Poids: <input name="poids" size="4" value="1">(Kg) / ';
+    echo 'Taille: <input name="taille" size="4" value="0.1">(Mètres) / ';
+    echo 'Age: <input name="age" size="2" value="1">(Ans) ';
     echo '<button type="submit">Ajouter</button>';
     echo '</form>';
 
