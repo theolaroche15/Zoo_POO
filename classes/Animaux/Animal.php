@@ -23,6 +23,23 @@ class Animal {
     public function afficher() {
         echo $this->nom . " (" . $this->espece . ") - " . $this->poids . "kg, "
          . $this->taille . "m, " . $this->age . " ans";
+        }
+        
+    public function getNom() {
+        return $this->nom;
     }
+
+    public function getEspece() {
+        return $this->espece;
+    }
+
+    public function isDort() {
+        return $this->dort;
+    }
+
+    public function manger() {
+        $this->faim = false;
+    }
+
 }
 

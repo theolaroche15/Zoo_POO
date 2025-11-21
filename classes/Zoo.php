@@ -33,4 +33,29 @@ class Zoo {
 
         return $total;
     }
+
+    public function setEmploye($employe) {
+        $this->employe = $employe;
+    }
+
+    public function getEnclos($id = null) {
+        if ($id === null) return $this->enclos;
+        return $this->enclos[$id] ?? null;
+    }
+
+    public function afficherEnclos() {
+        $txt = "";
+        foreach ($this->enclos as $i => $enclos) {
+            $txt .= "<br>Enclos $i : " . $enclos->afficherCaracteristiques();
+        }
+        return $txt;
+    }
+
+    public function afficherAnimauxDansZoo() {
+        $txt = "";
+        foreach ($this->enclos as $i => $enclos) {
+            $txt .= "<br>Enclos $i :<br>" . $enclos->afficherAnimaux();
+        }
+        return $txt;
+    }
 }

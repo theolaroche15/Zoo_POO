@@ -53,4 +53,49 @@ class Enclos {
 
         echo "<br>";
     }
+    
+    public function getNom() {
+        return $this->nom;
+    }
+
+    public function getProprete() {
+        return $this->proprete;
+    }
+
+    public function setProprete($p) {
+        $this->proprete = $p;
+    }
+
+    public function getNombreAnimaux() {
+        return count($this->animaux);
+    }
+
+    public function isEmpty() {
+        return $this->getNombreAnimaux() === 0;
+    }
+
+    public function isEmptyPublic() {
+        return $this->isEmpty();
+    }
+
+    public function isVide() {
+        return $this->isEmpty();
+    }
+
+    public function getAnimal($index) {
+        return $this->animaux[$index] ?? null;
+    }
+
+    public function afficherCaracteristiques() {
+        return "Nom : $this->nom, Propreté : $this->proprete, Nombre animaux : " . $this->getNombreAnimaux() . "<br>";
+    }
+
+    public function afficherAnimaux() {
+        if (empty($this->animaux)) return "Aucun animal.<br>";
+        $txt = "";
+        foreach ($this->animaux as $i => $a) {
+            $txt .= "[$i] " . $a->getNom() . " (" . $a->getEspece() . ")<br>";
+        }
+        return $txt;
+    }
 }
