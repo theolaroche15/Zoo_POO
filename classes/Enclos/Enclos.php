@@ -1,5 +1,5 @@
 <?php 
-require_once "/../Animaux/Animal.php";
+require_once __DIR__ . '/../Animaux/Animal.php';
 
 class Enclos {
 
