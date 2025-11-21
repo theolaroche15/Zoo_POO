@@ -12,8 +12,8 @@ require_once __DIR__ . '/classes/Zoo.php';
 $employe = new Employe("Yves", 25, "M");
 $zoo = new Zoo("Mon Zoo", $employe);
 
-$enclos1 = new Enclos("Territoire Tigres");
-$enclos2 = new Enclos("Territoire Ours");
+$enclos1 = new Enclos("Enclos 1");
+$enclos2 = new Enclos("Enclos 2");
 $voliere = new Voliere("Voliere", 10);
 $aquarium = new Aquarium("Aquarium", 35);
 
@@ -101,6 +101,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $messages[] = "Échec du transfert.";
         }
     }
+
+    if ($action === 'creer_enclos') {
+        $nom = trim($_POST['nom_enclos'] ?? '');
+        $type = $_POST['type_enclos'] ?? 'Enclos';
+
+        $enclos = null;
+        if ($type === 'Enclos') $enclos = new Enclos($nom);
+        if ($type === 'Voliere') $enclos = new Voliere($nom, 10); // hauteur par défaut
+        if ($type === 'Aquarium') $enclos = new Aquarium($nom, 35); // salinité par défaut
+
+        if ($enclos) {
+            $zoo->ajouterEnclos($enclos);
+            $messages[] = "Nouvel enclos créé : $nom ($type)";
+        } else {
+            $messages[] = "Erreur création de l'enclos.";
+        }
+    }
 }
 ?>
 <!doctype html>
@@ -184,6 +201,18 @@ foreach ($all as $i => $en) {
         <?php foreach ($all as $i => $en) echo '<option value="'.$i.'">'.htmlspecialchars($en->getNom()).'</option>'; ?>
     </select>
     <button type="submit">Transférer</button>
+</form>
+<h2>Créer un nouvel enclos</h2>
+<form method="post">
+    <input type="hidden" name="action" value="creer_enclos">
+    Nom de l'enclos : <input name="nom_enclos" required>
+    Type :
+    <select name="type_enclos">
+        <option value="Enclos">Normal</option>
+        <option value="Voliere">Volière</option>
+        <option value="Aquarium">Aquarium</option>
+    </select>
+    <button type="submit">Créer</button>
 </form>
 </body>
 </html>
