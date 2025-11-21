@@ -147,8 +147,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ul {
             list-style-type: none;
             padding-left: 0;
+            margin: 0 0 10px 0;
         }
 
+        ul li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            margin-bottom: 6px;
+            border-left: 5px solid #4CAF50;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
         button {
             background-color: #4CAF50;
             color: white;
