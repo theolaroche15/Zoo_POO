@@ -1,59 +1,39 @@
 <?php
-// index.php - interface minimale pour PooZoo
-// Place ce fichier à la racine du projet (à côté du dossier classes/)
-
-// Activer l'affichage d'erreurs (utile pour debug)
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-// Charger les classes nécessaires (vérifie que les chemins existent)
 require_once __DIR__ . '/classes/Animaux/Tigre.php';
 require_once __DIR__ . '/classes/Animaux/Ours.php';
 require_once __DIR__ . '/classes/Animaux/Aigle.php';
 require_once __DIR__ . '/classes/Animaux/Poisson.php';
-
 require_once __DIR__ . '/classes/Enclos/Enclos.php';
 require_once __DIR__ . '/classes/Enclos/Voliere.php';
 require_once __DIR__ . '/classes/Enclos/Aquarium.php';
-
 require_once __DIR__ . '/classes/Employe.php';
 require_once __DIR__ . '/classes/Zoo.php';
 
-// --- Seed minimal pour tester (tout en mémoire) ---
-$employe = new Employe("Jean", 30, "M");
-$zoo = new Zoo("MonPooZoo", $employe);
+$employe = new Employe("Yves", 25, "M");
+$zoo = new Zoo("Mon Zoo", $employe);
 
-// créer quelques enclos
-$e1 = new Enclos("Territoire Tigres");
-$e2 = new Enclos("Territoire Ours");
-$voliere = new Voliere("La Voliere", 10);
-$aqua = new Aquarium("Petit Aquarium", 35);
+$enclos1 = new Enclos("Territoire Tigres");
+$enclos2 = new Enclos("Territoire Ours");
+$voliere = new Voliere("Voliere", 10);
+$aquarium = new Aquarium("Aquarium", 35);
 
-// créer quelques animaux
-$t1 = new Tigre("Tigrou", 180, 2.1, 5);
-$t2 = new Tigre("Shere", 200, 2.3, 7);
-$o1 = new Ours("Baloo", 250, 2.5, 10);
-$a1 = new Aigle("Aiglou", 6, 0.7, 4);
-$p1 = new Poisson("Nemo", 0.2, 0.1, 1);
+$tigre1 = new Tigre("Tigre", 180, 2.1, 5);
+$ours1 = new Ours("Ours", 250, 2.5, 10);
+$aigle1 = new Aigle("Aigle", 6, 0.7, 4);
+$poisson1 = new Poisson("Poisson", 0.2, 0.1, 1);
 
-// remplir les enclos
-$e1->ajouterAnimal($t1);
-$e1->ajouterAnimal($t2);
-$e2->ajouterAnimal($o1);
-$voliere->ajouterAnimal($a1);
-$aqua->ajouterAnimal($p1);
+$enclos1->ajouterAnimal($tigre1);
+$enclos2->ajouterAnimal($ours1);
+$voliere->ajouterAnimal($aigle1);
+$aquarium->ajouterAnimal($poisson1);
 
-// ajouter enclos au zoo
-$zoo->ajouterEnclos($e1);
-$zoo->ajouterEnclos($e2);
+$zoo->ajouterEnclos($enclos1);
+$zoo->ajouterEnclos($enclos2);
 $zoo->ajouterEnclos($voliere);
-$zoo->ajouterEnclos($aqua);
+$zoo->ajouterEnclos($aquarium);
 
-// messages pour feedback utilisateur
 $messages = [];
 
-// traiter POST (actions simples et explicites)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
 
@@ -84,7 +64,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $taille = floatval($_POST['taille'] ?? 0.1);
         $age = intval($_POST['age'] ?? 1);
 
-        // créer l'instance selon l'espèce (strictement les 4 demandées)
         $animal = null;
         if ($espece === 'Tigre') $animal = new Tigre($nom, $poids, $taille, $age);
         if ($espece === 'Ours')  $animal = new Ours($nom, $poids, $taille, $age);
@@ -128,22 +107,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html>
 <head>
     <meta charset="utf-8">
-    <title>PooZoo - minimal</title>
+    <title>Mon Zoo</title>
 </head>
 <body>
-<h1>PooZoo</h1>
+<h1>Mon Zoo</h1>
 
-<!-- Afficher messages -->
 <?php foreach ($messages as $m) echo '<div>' . htmlspecialchars($m) . '</div>'; ?>
 
-<!-- Liste des enclos et actions -->
 <?php
 $all = $zoo->getEnclos();
 foreach ($all as $i => $en) {
     echo '<div>';
     echo '<h3>' . htmlspecialchars($en->getNom()) . ' (propreté: ' . htmlspecialchars($en->getProprete()) . ')</h3>';
 
-    // animaux
     if ($en->isEmpty()) {
         echo '<p>Aucun animal</p>';
     } else {
@@ -192,27 +168,22 @@ foreach ($all as $i => $en) {
     echo 'Index: <input name="animal_index" size="2" required> ';
     echo '<button type="submit">Enlever</button>';
     echo '</form>';
-
     echo '</div><hr>';
 }
 ?>
-
-<!-- Transfert -->
 <h2>Transférer un animal</h2>
 <form method="post">
     <input type="hidden" name="action" value="transferer">
-    Source:
+    Enclos actuel:
     <select name="src_enclos_index">
         <?php foreach ($all as $i => $en) echo '<option value="'.$i.'">'.htmlspecialchars($en->getNom()).'</option>'; ?>
     </select>
     Index animal: <input name="animal_index" size="2" required>
-    Destination:
+    Vers enclos:
     <select name="dst_enclos_index">
         <?php foreach ($all as $i => $en) echo '<option value="'.$i.'">'.htmlspecialchars($en->getNom()).'</option>'; ?>
     </select>
     <button type="submit">Transférer</button>
 </form>
-
-<p><em>Note :</em> tout est en mémoire (pas de BDD).</p>
 </body>
 </html>
