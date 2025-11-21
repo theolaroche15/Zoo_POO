@@ -148,6 +148,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             list-style-type: none;
             padding-left: 0;
             margin: 0 0 10px 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            
         }
 
         ul li {
