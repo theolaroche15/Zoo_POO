@@ -151,7 +151,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
-            
         }
 
         ul li {
